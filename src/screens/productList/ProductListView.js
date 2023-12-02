@@ -2,17 +2,22 @@ import React from 'react';
 import {View, FlatList, ActivityIndicator, StyleSheet} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import ProductItem from './components/ProductItem';
+import Filter from './components/Filter';
 
 const ProductListView = ({
-  products,
+  displayedProducts,
+  allProducts,
   onEndReached,
   isLoading,
   hasMoretoLoad,
+  onFilterSelection,
+  setSelectedFilterOption,
+  selectedFilterOption,
 }) => {
   const insets = useSafeAreaInsets();
 
   const renderItem = ({item}) => {
-    return <ProductItem productList={products} product={item} />;
+    return <ProductItem productList={displayedProducts} product={item} />;
   };
 
   const renderFooter = () => {
@@ -32,13 +37,17 @@ const ProductListView = ({
         flex: 1,
         paddingTop: insets.top / 4,
         paddingBottom: insets.bottom,
+        marginLeft: 16,
       }}>
+      <Filter
+        onFilterSelection={key => onFilterSelection(key)}
+        allProducts={allProducts}
+        setSelectedFilterOption={setSelectedFilterOption}
+        selectedFilterOption={selectedFilterOption}
+      />
       <FlatList
-        style={{
-          marginHorizontal: 6,
-        }}
         numColumns={2}
-        data={products}
+        data={displayedProducts}
         renderItem={renderItem}
         keyExtractor={item => item.id}
         columnWrapperStyle={{
