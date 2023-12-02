@@ -4,7 +4,11 @@ import {getProductList} from '../../services/productApi';
 
 const ProductListContainer = () => {
   const [products, setProducts] = useState([]);
+
+  //Display loading icon with footer element of FlatList
   const [isLoading, setIsLoading] = useState(false);
+
+  //Responsible for detecting is product last page of array.
   const [hasMoretoLoad, setHasMoretoLoad] = useState(true);
 
   const page = useRef(1);
