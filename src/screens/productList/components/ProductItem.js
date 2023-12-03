@@ -4,8 +4,11 @@ import Constants from '../../../../constants';
 import FavoriteAction from './FavoriteAction';
 import FastImage from 'react-native-fast-image';
 import AddtoCart from './AddtoCart';
+import {useNavigation} from '@react-navigation/native';
 
 const ProductItem = ({product}) => {
+  const navigation = useNavigation();
+
   const renderFavorite = () => {
     return <FavoriteAction product={product} />;
   };
@@ -46,7 +49,14 @@ const ProductItem = ({product}) => {
   };
 
   return (
-    <TouchableOpacity activeOpacity={1} style={styles.productContainer}>
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate('ProductDetail', {
+          product: product,
+        })
+      }
+      activeOpacity={1}
+      style={styles.productContainer}>
       {renderImage()}
       {renderDetails()}
       {renderAddtoCart()}
