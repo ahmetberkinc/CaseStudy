@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useContext} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -9,6 +9,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import Constants from './constants';
 import CartContainer from './src/screens/cart/CartContainer';
 import MainContext, {MainContextProvider} from './src/context/MainContext';
+import FavoriteListContainer from './src/screens/favoriteList/FavoriteListContainer';
 
 const App = () => {
   const Tab = createBottomTabNavigator();
@@ -45,7 +46,7 @@ const App = () => {
         />
         <Tab.Screen
           name="FavoriteList"
-          component={ProductListContainer}
+          component={FavoriteListContainer}
           options={{
             tabBarShowLabel: false,
             tabBarIcon: () => (

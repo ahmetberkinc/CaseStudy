@@ -6,6 +6,7 @@ const MainContext = createContext();
 export const MainContextProvider = ({children}) => {
   const [updateCartToggle, setUpdateCartToggle] = useState(false);
   const [cartProductCount, setCartProductCount] = useState(0);
+  const [updateFavListToggle, setUpdateFavListToggle] = useState(false);
 
   useEffect(() => {
     getUniqueCartProductCount().then(count => setCartProductCount(count));
@@ -16,6 +17,8 @@ export const MainContextProvider = ({children}) => {
     setUpdateCartToggle,
     cartProductCount,
     setCartProductCount,
+    updateFavListToggle,
+    setUpdateFavListToggle,
   };
 
   return <MainContext.Provider value={values}>{children}</MainContext.Provider>;
