@@ -52,7 +52,6 @@ const ProductListContainer = () => {
 
   //Display products with user input
   function onSearchTextInput(searchValue) {
-    console.log('searchValue', searchValue);
     page.current = 1;
     if (searchValue.length === 0) {
       getProducts();

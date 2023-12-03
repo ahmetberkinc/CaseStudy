@@ -1,16 +1,25 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {TouchableOpacity, Text, StyleSheet, View} from 'react-native';
 import Constants from '../../../../constants';
 import {
   checkCartProductCount,
+  removeCartProduct,
   updateCartProductCount,
 } from '../../../services/productApi';
 import {useIsFocused} from '@react-navigation/native';
+import MainContext from '../../../context/MainContext';
 
 const AddtoCart = ({product}) => {
   const isFocused = useIsFocused();
 
   const [productCount, setProductCount] = useState(0);
+
+  const {
+    updateCartToggle,
+    setUpdateCartToggle,
+    cartProductCount,
+    setCartProductCount,
+  } = useContext(MainContext);
 
   useEffect(() => {
     isFocused &&
@@ -23,7 +32,14 @@ const AddtoCart = ({product}) => {
         <TouchableOpacity
           onPress={() => (
             setProductCount(productCount - 1),
-            updateCartProductCount(product, productCount - 1)
+            productCount === 1
+              ? removeCartProduct(product).then(() => {
+                  setUpdateCartToggle(!updateCartToggle),
+                    setCartProductCount(cartProductCount - 1);
+                })
+              : updateCartProductCount(product, productCount - 1).then(() =>
+                  setUpdateCartToggle(!updateCartToggle),
+                )
           )}
           style={styles.containerOptionItem}>
           <Text style={styles.optionText}>-</Text>
@@ -34,7 +50,9 @@ const AddtoCart = ({product}) => {
         <TouchableOpacity
           onPress={() => (
             setProductCount(productCount + 1),
-            updateCartProductCount(product, productCount + 1)
+            updateCartProductCount(product, productCount + 1).then(() =>
+              setUpdateCartToggle(!updateCartToggle),
+            )
           )}
           style={styles.containerOptionItem}>
           <Text style={styles.optionText}>+</Text>
@@ -47,7 +65,13 @@ const AddtoCart = ({product}) => {
     renderCountOptions()
   ) : (
     <TouchableOpacity
-      onPress={() => setProductCount(1)}
+      onPress={() => (
+        setProductCount(1),
+        updateCartProductCount(product, 1).then(() => {
+          setUpdateCartToggle(!updateCartToggle),
+            setCartProductCount(cartProductCount + 1);
+        })
+      )}
       style={styles.containerCart}>
       <Text style={styles.addCartText}>Add to Cart</Text>
     </TouchableOpacity>

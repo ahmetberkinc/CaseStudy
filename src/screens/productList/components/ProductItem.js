@@ -42,7 +42,8 @@ const ProductItem = ({product}) => {
 
   const renderAddtoCart = () => {
     return (
-      <View style={{marginTop: 10}}>
+      <View
+        style={{marginTop: 10, justifyContent: 'center', alignItems: 'center'}}>
         <AddtoCart product={product} />
       </View>
     );

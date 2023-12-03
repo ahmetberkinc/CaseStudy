@@ -52,8 +52,6 @@ export const searchProducts = async (pageNumber, searchValue) => {
 
   url = Constants.BASE_URL + `search=${searchValue}`;
 
-  console.log('url', url);
-
   return new Promise((resolve, reject) => {
     fetch(`${url}&page=${pageNumber}&limit=${12}`, {
       method: 'GET',
@@ -135,9 +133,8 @@ export const findDisplayedProducts = (array, brandName, searchValue) => {
 
 export async function checkCartProductCount(product) {
   try {
-    const jsonValue = await AsyncStorage.getItem('test');
+    const jsonValue = await AsyncStorage.getItem('cartProducts');
 
-    console.log('checkCartProductCount', jsonValue);
     if (jsonValue !== null) {
       // value previously stored
       return JSON.parse(jsonValue).find(
@@ -153,7 +150,7 @@ export async function checkCartProductCount(product) {
 
 export async function updateCartProductCount(product, count) {
   try {
-    const jsonValue = await AsyncStorage.getItem('test');
+    const jsonValue = await AsyncStorage.getItem('cartProducts');
     //Already exist cart products
     if (jsonValue !== null) {
       let index = JSON.parse(jsonValue).findIndex(
@@ -163,7 +160,7 @@ export async function updateCartProductCount(product, count) {
       if (index === -1) {
         product.count = 1;
         await AsyncStorage.setItem(
-          'test',
+          'cartProducts',
           JSON.stringify(JSON.parse(jsonValue).concat(product)),
         );
       }
@@ -172,12 +169,55 @@ export async function updateCartProductCount(product, count) {
 
       data[index].count = count;
 
-      await AsyncStorage.setItem('test', JSON.stringify(data));
+      await AsyncStorage.setItem('cartProducts', JSON.stringify(data));
       //First time add favorite
     } else {
-      await AsyncStorage.setItem('test', JSON.stringify([product]));
+      await AsyncStorage.setItem('cartProducts', JSON.stringify([product]));
     }
   } catch (e) {
     // saving error
+  }
+}
+
+export async function removeCartProduct(product) {
+  let cartProducts = [];
+  let updatedCartProducts = [];
+  try {
+    const jsonValue = await AsyncStorage.getItem('cartProducts');
+    cartProducts = JSON.parse(jsonValue);
+
+    updatedCartProducts = cartProducts.filter(
+      cartProduct => cartProduct.id !== product.id,
+    );
+
+    await AsyncStorage.setItem(
+      'cartProducts',
+      JSON.stringify(updatedCartProducts),
+    );
+  } catch (e) {
+    // error reading value
+  }
+}
+
+export async function getUniqueCartProductCount() {
+  try {
+    const jsonValue = await AsyncStorage.getItem('cartProducts');
+
+    if (jsonValue !== null) {
+      return JSON.parse(jsonValue).length;
+    }
+    return 0;
+  } catch (e) {
+    // error reading value
+    console.log('e', e);
+  }
+}
+
+export async function getCartProducts() {
+  try {
+    const jsonValue = await AsyncStorage.getItem('cartProducts');
+    return jsonValue != null ? JSON.parse(jsonValue) : null;
+  } catch (e) {
+    // error reading value
   }
 }
