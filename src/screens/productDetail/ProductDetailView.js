@@ -52,7 +52,7 @@ const ProductDetailView = ({product}) => {
   const renderAddtoCart = () => {
     return (
       <View style={{flex: 1, alignItems: 'flex-end'}}>
-        <AddtoCart />
+        <AddtoCart product={product} />
       </View>
     );
   };

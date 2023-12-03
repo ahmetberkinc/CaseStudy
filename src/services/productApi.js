@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from '../../constants';
 
 export const getProductList = async (pageNumber, brandName) => {
@@ -131,3 +132,52 @@ export const findDisplayedProducts = (array, brandName, searchValue) => {
       });
   }
 };
+
+export async function checkCartProductCount(product) {
+  try {
+    const jsonValue = await AsyncStorage.getItem('test');
+
+    console.log('checkCartProductCount', jsonValue);
+    if (jsonValue !== null) {
+      // value previously stored
+      return JSON.parse(jsonValue).find(
+        cartProduct => cartProduct.id === product.id,
+      )?.count;
+    }
+    return false;
+  } catch (e) {
+    // error reading value
+    console.log('e', e);
+  }
+}
+
+export async function updateCartProductCount(product, count) {
+  try {
+    const jsonValue = await AsyncStorage.getItem('test');
+    //Already exist cart products
+    if (jsonValue !== null) {
+      let index = JSON.parse(jsonValue).findIndex(
+        cartProduct => cartProduct.id === product.id,
+      );
+
+      if (index === -1) {
+        product.count = 1;
+        await AsyncStorage.setItem(
+          'test',
+          JSON.stringify(JSON.parse(jsonValue).concat(product)),
+        );
+      }
+
+      let data = JSON.parse(jsonValue);
+
+      data[index].count = count;
+
+      await AsyncStorage.setItem('test', JSON.stringify(data));
+      //First time add favorite
+    } else {
+      await AsyncStorage.setItem('test', JSON.stringify([product]));
+    }
+  } catch (e) {
+    // saving error
+  }
+}

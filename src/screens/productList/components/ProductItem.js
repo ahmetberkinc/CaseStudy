@@ -43,7 +43,7 @@ const ProductItem = ({product}) => {
   const renderAddtoCart = () => {
     return (
       <View style={{marginTop: 10}}>
-        <AddtoCart />
+        <AddtoCart product={product} />
       </View>
     );
   };
