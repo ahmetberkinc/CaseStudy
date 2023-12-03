@@ -3,6 +3,7 @@ import {View, FlatList, ActivityIndicator, StyleSheet} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import ProductItem from './components/ProductItem';
 import Filter from './components/Filter';
+import SearchBar from './components/SearchBar';
 
 const ProductListView = ({
   displayedProducts,
@@ -10,9 +11,12 @@ const ProductListView = ({
   onEndReached,
   isLoading,
   hasMoretoLoad,
+  onSearchTextInput,
   onFilterSelection,
   setSelectedFilterOption,
   selectedFilterOption,
+  searchInput,
+  setSearchInput,
 }) => {
   const insets = useSafeAreaInsets();
 
@@ -37,8 +41,13 @@ const ProductListView = ({
         flex: 1,
         paddingTop: insets.top / 4,
         paddingBottom: insets.bottom,
-        marginLeft: 16,
+        marginHorizontal: 16,
       }}>
+      <SearchBar
+        searchInput={searchInput}
+        setSearchInput={setSearchInput}
+        onSearchTextInput={value => onSearchTextInput(value)}
+      />
       <Filter
         onFilterSelection={key => onFilterSelection(key)}
         allProducts={allProducts}

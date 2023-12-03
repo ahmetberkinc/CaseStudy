@@ -106,7 +106,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'flex-end',
     marginVertical: 14,
-    marginRight: 17,
     width: 158,
   },
   filtersText: {
