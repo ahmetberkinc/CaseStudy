@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, FlatList, ActivityIndicator, StyleSheet} from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import ProductItem from './components/ProductItem';
 import Filter from './components/Filter';
 import SearchBar from './components/SearchBar';
@@ -17,8 +17,6 @@ const ProductListView = ({
   setSearchInput,
   isFavoriteList,
 }) => {
-  const insets = useSafeAreaInsets();
-
   const renderItem = ({item}) => {
     return <ProductItem productList={displayedProducts} product={item} />;
   };
@@ -35,11 +33,9 @@ const ProductListView = ({
   };
 
   return (
-    <View
+    <SafeAreaView
       style={{
         flex: 1,
-        paddingTop: insets.top / 4,
-        paddingBottom: insets.bottom,
         marginHorizontal: 16,
       }}>
       {!isFavoriteList && (
@@ -71,7 +67,7 @@ const ProductListView = ({
         onEndReachedThreshold={0.5}
         ListFooterComponent={renderFooter}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

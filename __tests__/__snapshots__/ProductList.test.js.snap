@@ -1,0 +1,193 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<RNCSafeAreaView
+  edges={
+    {
+      "bottom": "additive",
+      "left": "additive",
+      "right": "additive",
+      "top": "additive",
+    }
+  }
+  style={
+    {
+      "flex": 1,
+      "marginHorizontal": 16,
+    }
+  }
+>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "backgroundColor": "#D9D9D9",
+        "borderColor": "#D9D9D9",
+        "borderRadius": 10,
+        "borderWidth": 2,
+        "flexDirection": "row",
+        "height": 40,
+      }
+    }
+  >
+    <Text
+      allowFontScaling={false}
+      selectable={false}
+      style={
+        [
+          {
+            "color": undefined,
+            "fontSize": 30,
+          },
+          undefined,
+          {
+            "fontFamily": "EvilIcons",
+            "fontStyle": "normal",
+            "fontWeight": "normal",
+          },
+          {},
+        ]
+      }
+    >
+      
+    </Text>
+    <TextInput
+      autoCapitalize="none"
+      onChangeText={[Function]}
+      placeholder="Search"
+      style={
+        {
+          "flex": 1,
+          "paddingBottom": 0,
+          "paddingTop": 0,
+        }
+      }
+      value=""
+    />
+  </View>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+      }
+    }
+  >
+    <Text
+      style={
+        {
+          "color": "#000000",
+          "flex": 1,
+          "fontSize": 18,
+          "fontWeight": "500",
+        }
+      }
+    >
+      Filters:
+    </Text>
+    <View
+      accessibilityState={
+        {
+          "busy": undefined,
+          "checked": undefined,
+          "disabled": undefined,
+          "expanded": undefined,
+          "selected": undefined,
+        }
+      }
+      accessibilityValue={
+        {
+          "max": undefined,
+          "min": undefined,
+          "now": undefined,
+          "text": undefined,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        {
+          "alignItems": "center",
+          "alignSelf": "flex-end",
+          "backgroundColor": "#D9D9D9",
+          "flexDirection": "row",
+          "height": 36,
+          "justifyContent": "center",
+          "marginVertical": 14,
+          "opacity": 1,
+          "width": 158,
+        }
+      }
+    >
+      <Text
+        style={
+          {
+            "color": "#000000",
+            "fontSize": 14,
+          }
+        }
+      >
+        Select Filter
+      </Text>
+      <Modal
+        animationType="slide"
+        hardwareAccelerated={false}
+        transparent={true}
+        visible={false}
+      />
+    </View>
+  </View>
+  <RCTScrollView
+    ListFooterComponent={[Function]}
+    contentContainerStyle={
+      {
+        "paddingBottom": 32,
+      }
+    }
+    data={[]}
+    getItem={[Function]}
+    getItemCount={[Function]}
+    keyExtractor={[Function]}
+    onContentSizeChange={[Function]}
+    onEndReached={[Function]}
+    onEndReachedThreshold={0.5}
+    onLayout={[Function]}
+    onMomentumScrollBegin={[Function]}
+    onMomentumScrollEnd={[Function]}
+    onScroll={[Function]}
+    onScrollBeginDrag={[Function]}
+    onScrollEndDrag={[Function]}
+    removeClippedSubviews={false}
+    renderItem={[Function]}
+    scrollEventThrottle={50}
+    showsVerticalScrollIndicator={false}
+    stickyHeaderIndices={[]}
+    viewabilityConfigCallbackPairs={[]}
+  >
+    <View>
+      <View
+        onLayout={[Function]}
+      >
+        <View
+          style={
+            {
+              "alignItems": "center",
+              "flexDirection": "row",
+              "justifyContent": "center",
+              "padding": 10,
+            }
+          }
+        />
+      </View>
+    </View>
+  </RCTScrollView>
+</RNCSafeAreaView>
+`;

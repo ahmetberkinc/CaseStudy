@@ -25,16 +25,16 @@ const Filter = ({
   const [modelInput, setModelInput] = useState('');
 
   function getBrandList() {
-    setBrandList([...new Set(allProducts.map(product => product.brand))]);
+    setBrandList([...new Set(allProducts?.map(product => product.brand))]);
   }
 
   function getModelList() {
-    setModelList([...new Set(allProducts.map(product => product.model))]);
+    setModelList([...new Set(allProducts?.map(product => product.model))]);
   }
 
   useEffect(() => {
     if (brandInput.length === 0) {
-      setBrandList([...new Set(allProducts.map(product => product.brand))]);
+      setBrandList([...new Set(allProducts?.map(product => product.brand))]);
     } else {
       setBrandList([
         ...new Set(
@@ -52,7 +52,7 @@ const Filter = ({
 
   useEffect(() => {
     if (modelInput.length === 0) {
-      setBrandList([...new Set(allProducts.map(product => product.model))]);
+      setBrandList([...new Set(allProducts?.map(product => product.model))]);
     } else {
       setBrandList([
         ...new Set(
@@ -62,7 +62,7 @@ const Filter = ({
                 .toLowerCase()
                 .includes(modelInput.toLowerCase());
             })
-            .map(product => product.model),
+            ?.map(product => product.model),
         ),
       ]);
     }
@@ -96,7 +96,7 @@ const Filter = ({
   ];
 
   function renderSortOptions() {
-    return sortOptions.map(sortOption => {
+    return sortOptions?.map(sortOption => {
       return (
         <TouchableOpacity
           onPress={() => {
@@ -112,7 +112,7 @@ const Filter = ({
           key={sortOption.id}>
           <Ionicons
             name={
-              selectedFilterOption.sort.id === sortOption.id
+              selectedFilterOption?.sort?.id === sortOption?.id
                 ? 'radio-button-on'
                 : 'radio-button-off'
             }
@@ -126,7 +126,7 @@ const Filter = ({
   }
 
   function renderBrandOptions() {
-    return brandList.map((brandOption, index) => {
+    return brandList?.map((brandOption, index) => {
       return (
         <TouchableOpacity
           onPress={() => {
@@ -156,7 +156,7 @@ const Filter = ({
   }
 
   function renderModelOptions() {
-    return modelList.map((modelOption, index) => {
+    return modelList?.map((modelOption, index) => {
       return (
         <TouchableOpacity
           onPress={() => {
