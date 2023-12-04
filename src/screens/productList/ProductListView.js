@@ -4,6 +4,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import ProductItem from './components/ProductItem';
 import Filter from './components/Filter';
 import SearchBar from './components/SearchBar';
+import Constants from '../../../constants';
 
 const ProductListView = ({
   displayedProducts,
@@ -26,7 +27,7 @@ const ProductListView = ({
       //Footer View with Loader
       <View style={styles.footer}>
         {isLoading ? (
-          <ActivityIndicator color="black" style={{margin: 15}} />
+          <ActivityIndicator color={Constants.BLACK} style={{margin: 15}} />
         ) : null}
       </View>
     );

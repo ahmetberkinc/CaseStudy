@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: Constants.GRAY,
     backgroundColor: Constants.GRAY,
+    marginTop: 12,
   },
   input: {
     paddingTop: 0,

@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import AddtoCart from '../productList/components/AddtoCart';
 import Constants from '../../../constants';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const CartView = ({cartProducts}) => {
   const renderCartProducts = () => {
@@ -53,10 +54,10 @@ const CartView = ({cartProducts}) => {
   }
 
   return (
-    <View style={styles.containerMain}>
+    <SafeAreaView style={styles.containerMain}>
       <ScrollView>{renderCartProducts()}</ScrollView>
       {renderBottomDetails()}
-    </View>
+    </SafeAreaView>
   );
 };
 

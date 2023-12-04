@@ -4,6 +4,7 @@ import FastImage from 'react-native-fast-image';
 import Constants from '../../../constants';
 import FavoriteAction from '../productList/components/FavoriteAction';
 import AddtoCart from '../productList/components/AddtoCart';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const ProductDetailView = ({product}) => {
   const renderProductImage = () => {
@@ -58,13 +59,13 @@ const ProductDetailView = ({product}) => {
   };
 
   return (
-    <View style={styles.containerMain}>
+    <SafeAreaView style={styles.containerMain}>
       <ScrollView>
         {renderProductImage()}
         {renderDetails()}
       </ScrollView>
       {renderBottomDetails()}
-    </View>
+    </SafeAreaView>
   );
 };
 
