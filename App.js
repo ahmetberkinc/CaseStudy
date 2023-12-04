@@ -10,6 +10,7 @@ import Constants from './constants';
 import CartContainer from './src/screens/cart/CartContainer';
 import MainContext, {MainContextProvider} from './src/context/MainContext';
 import FavoriteListContainer from './src/screens/favoriteList/FavoriteListContainer';
+import HeaderLeftAction from './navigation/components/HeaderLeftAction';
 
 const App = () => {
   const Tab = createBottomTabNavigator();
@@ -18,7 +19,14 @@ const App = () => {
     const {cartProductCount} = useContext(MainContext);
 
     return (
-      <Tab.Navigator>
+      <Tab.Navigator
+        screenOptions={{
+          headerStyle: {backgroundColor: Constants.BLUE},
+          headerTitleStyle: {
+            color: Constants.WHITE,
+            fontSize: 22,
+          },
+        }}>
         <Tab.Screen
           name="ProductList"
           component={ProductListContainer}
@@ -42,6 +50,7 @@ const App = () => {
               />
             ),
             tabBarBadge: cartProductCount,
+            headerLeft: () => <HeaderLeftAction />,
           }}
         />
         <Tab.Screen
@@ -52,13 +61,17 @@ const App = () => {
             tabBarIcon: () => (
               <Entypo name="star-outlined" color={Constants.BLACK} size={30} />
             ),
+            headerLeft: () => <HeaderLeftAction />,
           }}
         />
         <Tab.Screen
           name="ProductDetail"
           component={ProductDetailContainer}
-          options={{
+          options={({route}) => ({
+            headerStyle: {backgroundColor: Constants.BLUE},
+
             tabBarShowLabel: false,
+            title: route.params.product.brand + ' ' + route.params.product.name,
             tabBarIcon: () => (
               <Ionicons
                 name="person-outline"
@@ -66,7 +79,8 @@ const App = () => {
                 size={30}
               />
             ),
-          }}
+            headerLeft: () => <HeaderLeftAction />,
+          })}
         />
       </Tab.Navigator>
     );
