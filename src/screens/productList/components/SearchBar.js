@@ -1,31 +1,40 @@
-import {StyleSheet, TextInput} from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
+import {StyleSheet, TextInput, View} from 'react-native';
 import Constants from '../../../../constants';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 
 const SearchBar = ({searchInput, setSearchInput}) => {
   return (
-    <TextInput
-      style={styles.input}
-      autoCapitalize={'none'}
-      onChangeText={value => {
-        setSearchInput(value);
-      }}
-      value={searchInput}
-      placeholder="Search"
-    />
+    <View style={styles.containerSearch}>
+      <EvilIcons name={'search'} size={30} />
+      <TextInput
+        style={styles.input}
+        autoCapitalize={'none'}
+        onChangeText={value => {
+          setSearchInput(value);
+        }}
+        value={searchInput}
+        placeholder="Search"
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  input: {
+  containerSearch: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Constants.GRAY,
     height: 40,
-    borderColor: Constants.WHITE,
-    backgroundColor: Constants.WHITE,
     borderRadius: 10,
     borderWidth: 2,
-    padding: 10,
-    marginTop: 6,
-    marginBottom: 6,
+    borderColor: Constants.GRAY,
+    backgroundColor: Constants.GRAY,
+  },
+  input: {
+    paddingTop: 0,
+    paddingBottom: 0,
+    flex: 1,
   },
 });
 

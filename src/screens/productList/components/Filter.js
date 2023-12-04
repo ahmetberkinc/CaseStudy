@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -10,6 +10,7 @@ import {
 import Constants from '../../../../constants';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import SearchBar from './SearchBar';
 
 const Filter = ({
   allProducts,
@@ -20,6 +21,9 @@ const Filter = ({
   const [brandList, setBrandList] = useState([]);
   const [modelList, setModelList] = useState([]);
 
+  const [brandInput, setBrandInput] = useState('');
+  const [modelInput, setModelInput] = useState('');
+
   function getBrandList() {
     setBrandList([...new Set(allProducts.map(product => product.brand))]);
   }
@@ -27,6 +31,42 @@ const Filter = ({
   function getModelList() {
     setModelList([...new Set(allProducts.map(product => product.model))]);
   }
+
+  useEffect(() => {
+    if (brandInput.length === 0) {
+      setBrandList([...new Set(allProducts.map(product => product.brand))]);
+    } else {
+      setBrandList([
+        ...new Set(
+          allProducts
+            .filter(product => {
+              return product?.brand
+                .toLowerCase()
+                .includes(brandInput.toLowerCase());
+            })
+            .map(product => product.brand),
+        ),
+      ]);
+    }
+  }, [brandInput]);
+
+  useEffect(() => {
+    if (modelInput.length === 0) {
+      setBrandList([...new Set(allProducts.map(product => product.model))]);
+    } else {
+      setBrandList([
+        ...new Set(
+          allProducts
+            .filter(product => {
+              return product?.model
+                .toLowerCase()
+                .includes(modelInput.toLowerCase());
+            })
+            .map(product => product.model),
+        ),
+      ]);
+    }
+  }, [modelInput]);
 
   const sortOptions = [
     {
@@ -186,11 +226,19 @@ const Filter = ({
                 {renderSortOptions()}
                 <View style={styles.separatingLine} />
                 <Text style={styles.filterTitle}>Brand</Text>
+                <SearchBar
+                  searchInput={brandInput}
+                  setSearchInput={setBrandInput}
+                />
                 <ScrollView style={{height: 140}}>
                   {renderBrandOptions()}
                 </ScrollView>
                 <View style={styles.separatingLine} />
                 <Text style={styles.filterTitle}>Model</Text>
+                <SearchBar
+                  searchInput={modelInput}
+                  setSearchInput={setModelInput}
+                />
                 <ScrollView style={{height: 140}}>
                   {renderModelOptions()}
                 </ScrollView>
@@ -265,7 +313,7 @@ const styles = StyleSheet.create({
   separatingLine: {
     borderWidth: 0.5,
     borderColor: 'grey',
-    marginTop: 32,
+    marginTop: 16,
   },
 });
 
