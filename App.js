@@ -11,22 +11,17 @@ import CartContainer from './src/screens/cart/CartContainer';
 import MainContext, {MainContextProvider} from './src/context/MainContext';
 import FavoriteListContainer from './src/screens/favoriteList/FavoriteListContainer';
 import HeaderLeftAction from './navigation/components/HeaderLeftAction';
+import {createStackNavigator} from '@react-navigation/stack';
 
 const App = () => {
   const Tab = createBottomTabNavigator();
+  const Stack = createStackNavigator();
 
   function BottomTabs() {
     const {cartProductCount} = useContext(MainContext);
 
     return (
-      <Tab.Navigator
-        screenOptions={{
-          headerStyle: {backgroundColor: Constants.BLUE},
-          headerTitleStyle: {
-            color: Constants.WHITE,
-            fontSize: 22,
-          },
-        }}>
+      <Tab.Navigator screenOptions={{headerShown: false}}>
         <Tab.Screen
           name="ProductList"
           component={ProductListContainer}
@@ -65,13 +60,13 @@ const App = () => {
           }}
         />
         <Tab.Screen
-          name="ProductDetail"
-          component={ProductDetailContainer}
+          name="Profile"
+          component={ProductListContainer}
           options={({route}) => ({
             headerStyle: {backgroundColor: Constants.BLUE},
-
             tabBarShowLabel: false,
-            title: route.params.product.brand + ' ' + route.params.product.name,
+            title:
+              route.params?.product?.brand + ' ' + route.params?.product?.name,
             tabBarIcon: () => (
               <Ionicons
                 name="person-outline"
@@ -90,7 +85,29 @@ const App = () => {
     <SafeAreaProvider>
       <MainContextProvider>
         <NavigationContainer>
-          <BottomTabs />
+          <Stack.Navigator
+            screenOptions={{
+              headerStyle: {backgroundColor: Constants.BLUE},
+              headerTitleStyle: {
+                color: Constants.WHITE,
+                fontSize: 22,
+              },
+            }}>
+            <Stack.Screen name="E-Market" component={BottomTabs} />
+            <Stack.Screen
+              name="ProductDetail"
+              component={ProductDetailContainer}
+              options={({route}) => ({
+                headerStyle: {backgroundColor: Constants.BLUE},
+                tabBarShowLabel: false,
+                title:
+                  route.params?.product?.brand +
+                  ' ' +
+                  route.params?.product?.name,
+                headerLeft: () => <HeaderLeftAction />,
+              })}
+            />
+          </Stack.Navigator>
         </NavigationContainer>
       </MainContextProvider>
     </SafeAreaProvider>
