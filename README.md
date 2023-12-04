@@ -44,7 +44,7 @@ The application includes features such as listing the products purchased via API
 
 ```
 // Clone repository
-$ git clone https://github.com/ahmetberkinc/rnChallange.git
+$ git clone https://github.com/ahmetberkinc/CaseStudy.git
 
 
 // Go into the repository
