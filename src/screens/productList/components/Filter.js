@@ -85,13 +85,13 @@ const Filter = ({
       name: 'Price high to low',
       id: 3,
       type: 'price',
-      order: 'asc',
+      order: 'desc',
     },
     {
       name: 'Price low to high',
       id: 4,
       type: 'price',
-      order: 'desc',
+      order: 'asc',
     },
   ];
 
