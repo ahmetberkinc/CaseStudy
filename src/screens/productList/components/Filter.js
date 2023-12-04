@@ -9,43 +9,137 @@ import {
 } from 'react-native';
 import Constants from '../../../../constants';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const Filter = ({
   allProducts,
-  onFilterSelection,
   setSelectedFilterOption,
   selectedFilterOption,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [brandList, setBrandList] = useState([]);
+  const [modelList, setModelList] = useState([]);
 
   function getBrandList() {
     setBrandList([...new Set(allProducts.map(product => product.brand))]);
   }
 
-  function renderBrandList() {
-    return brandList.map((brand, index) => {
+  function getModelList() {
+    setModelList([...new Set(allProducts.map(product => product.model))]);
+  }
+
+  const sortOptions = [
+    {
+      name: 'Old to new',
+      id: 1,
+      type: 'createdAt',
+      order: 'asc',
+    },
+    {
+      name: 'New to old',
+      id: 2,
+      type: 'createdAt',
+      order: 'desc',
+    },
+    {
+      name: 'Price high to low',
+      id: 3,
+      type: 'price',
+      order: 'asc',
+    },
+    {
+      name: 'Price low to high',
+      id: 4,
+      type: 'price',
+      order: 'desc',
+    },
+  ];
+
+  function renderSortOptions() {
+    return sortOptions.map(sortOption => {
       return (
         <TouchableOpacity
-          key={index}
           onPress={() => {
-            setModalVisible(false),
-              setSelectedFilterOption(brand),
-              onFilterSelection(brand);
+            {
+              setSelectedFilterOption(selectedFilterOption => ({
+                ...selectedFilterOption,
+                sort: sortOption,
+              })),
+                setModalVisible(false);
+            }
           }}
-          style={styles.brandItemContainer}>
-          <Text
-            style={[
-              styles.brandItemText,
-              {
-                color:
-                  selectedFilterOption === brand
-                    ? Constants.BLUE
-                    : Constants.BLACK,
-              },
-            ]}>
-            {brand}
-          </Text>
+          style={styles.containerFilterOption}
+          key={sortOption.id}>
+          <Ionicons
+            name={
+              selectedFilterOption.sort.id === sortOption.id
+                ? 'radio-button-on'
+                : 'radio-button-off'
+            }
+            size={30}
+            color={Constants.BLUE}
+          />
+          <Text style={styles.filterOption}>{sortOption.name}</Text>
+        </TouchableOpacity>
+      );
+    });
+  }
+
+  function renderBrandOptions() {
+    return brandList.map((brandOption, index) => {
+      return (
+        <TouchableOpacity
+          onPress={() => {
+            {
+              setSelectedFilterOption(selectedFilterOption => ({
+                ...selectedFilterOption,
+                brand: brandOption,
+              })),
+                setModalVisible(false);
+            }
+          }}
+          key={index}
+          style={styles.containerFilterOption}>
+          <Ionicons
+            name={
+              selectedFilterOption.brand === brandOption
+                ? 'radio-button-on'
+                : 'radio-button-off'
+            }
+            size={30}
+            color={Constants.BLUE}
+          />
+          <Text style={styles.filterOption}>{brandOption}</Text>
+        </TouchableOpacity>
+      );
+    });
+  }
+
+  function renderModelOptions() {
+    return modelList.map((modelOption, index) => {
+      return (
+        <TouchableOpacity
+          onPress={() => {
+            {
+              setSelectedFilterOption(selectedFilterOption => ({
+                ...selectedFilterOption,
+                model: modelOption,
+              })),
+                setModalVisible(false);
+            }
+          }}
+          key={index}
+          style={styles.containerFilterOption}>
+          <Ionicons
+            name={
+              selectedFilterOption.model === modelOption
+                ? 'radio-button-on'
+                : 'radio-button-off'
+            }
+            size={30}
+            color={Constants.BLUE}
+          />
+          <Text style={styles.filterOption}>{modelOption}</Text>
         </TouchableOpacity>
       );
     });
@@ -56,7 +150,7 @@ const Filter = ({
       <Text style={styles.filtersText}>Filters:</Text>
       <TouchableOpacity
         onPress={() => {
-          getBrandList(), setModalVisible(true);
+          getBrandList(), getModelList(), setModalVisible(true);
         }}
         style={styles.filterContainer}>
         <Text style={styles.selectFilterText}>Select Filter</Text>
@@ -68,26 +162,38 @@ const Filter = ({
             }}>
             <TouchableOpacity activeOpacity={1} style={styles.modalView}>
               <View style={styles.titleContainer}>
-                <Text style={styles.modalTitle}>Filter By</Text>
+                <Text style={styles.modalTitle}>Filter</Text>
+                <TouchableOpacity
+                  onPress={() => setModalVisible(false)}
+                  style={styles.closeButton}>
+                  <AntDesign name={'close'} size={32} color={Constants.BLACK} />
+                </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
                     setModalVisible(false),
-                      setSelectedFilterOption('ALL'),
-                      onFilterSelection('ALL');
+                      setSelectedFilterOption({
+                        sort: 'Default',
+                        brand: 'All',
+                        model: 'All',
+                      });
                   }}
                   style={styles.clearTextContainer}>
                   <Text style={styles.clearText}>Clear</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => setModalVisible(false)}
-                  style={styles.closeButton}>
-                  <AntDesign name={'close'} size={30} />
-                </TouchableOpacity>
               </View>
-              <ScrollView
-                showsVerticalScrollIndicator={false}
-                style={{height: 250}}>
-                {renderBrandList()}
+              <ScrollView showsVerticalScrollIndicator={false}>
+                <Text style={styles.filterTitle}>Sort By</Text>
+                {renderSortOptions()}
+                <View style={styles.separatingLine} />
+                <Text style={styles.filterTitle}>Brand</Text>
+                <ScrollView style={{height: 140}}>
+                  {renderBrandOptions()}
+                </ScrollView>
+                <View style={styles.separatingLine} />
+                <Text style={styles.filterTitle}>Model</Text>
+                <ScrollView style={{height: 140}}>
+                  {renderModelOptions()}
+                </ScrollView>
               </ScrollView>
             </TouchableOpacity>
           </TouchableOpacity>
@@ -117,13 +223,11 @@ const styles = StyleSheet.create({
   selectFilterText: {fontSize: 14, color: Constants.BLACK},
   modalView: {
     backgroundColor: 'white',
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    left: 0,
-    width: Constants.SCREEN_WIDTH,
+    marginHorizontal: 10,
+    flex: 1,
+    height: Constants.SCREEN_HEIGHT,
   },
-  closeButton: {position: 'absolute', right: 10},
+  closeButton: {position: 'absolute', left: 0},
   titleContainer: {
     height: 40,
     justifyContent: 'center',
@@ -148,12 +252,20 @@ const styles = StyleSheet.create({
   },
   clearTextContainer: {
     position: 'absolute',
-    left: 10,
+    right: 10,
   },
   clearText: {
     fontSize: 18,
     color: Constants.ORANGE,
     fontWeight: '600',
+  },
+  containerFilterOption: {flexDirection: 'row', alignItems: 'center'},
+  filterTitle: {fontSize: 14, marginVertical: 8},
+  filterOption: {fontSize: 16, color: Constants.BLACK, marginVertical: 12},
+  separatingLine: {
+    borderWidth: 0.5,
+    borderColor: 'grey',
+    marginTop: 32,
   },
 });
 

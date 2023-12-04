@@ -1,12 +1,6 @@
 import React, {useEffect, useState, useRef} from 'react';
 import ProductListView from './ProductListView';
-import {
-  filterProductList,
-  findDisplayedProducts,
-  getAllProducts,
-  getProductList,
-  searchProducts,
-} from '../../services/productApi';
+import {getAllProducts, getProductList} from '../../services/productApi';
 
 const ProductListContainer = () => {
   const [displayedProducts, setDisplayedProducts] = useState([]);
@@ -18,13 +12,16 @@ const ProductListContainer = () => {
   //Responsible for detecting is product last page of array.
   const [hasMoretoLoad, setHasMoretoLoad] = useState(true);
 
-  const [selectedFilterOption, setSelectedFilterOption] = useState('ALL');
+  const [selectedFilterOption, setSelectedFilterOption] = useState({
+    sort: 'Default',
+    brand: 'All',
+    model: 'All',
+  });
   const [searchInput, setSearchInput] = useState('');
 
   const page = useRef(1);
 
   useEffect(() => {
-    getProducts();
     getEntireProducts();
   }, []);
 
@@ -35,49 +32,29 @@ const ProductListContainer = () => {
     });
   }
 
+  useEffect(() => {
+    getProducts(false);
+  }, [selectedFilterOption, searchInput]);
+
   //Get products with limit=12&pagination when page is render
-  function getProducts() {
+  function getProducts(pagination) {
     setIsLoading(true);
-    getProductList(page.current, selectedFilterOption, searchInput)
+    getProductList(page.current, searchInput, selectedFilterOption)
       .then(result => {
-        setDisplayedProducts([...displayedProducts, ...result]);
-        page.current += 1;
+        if (pagination) {
+          setDisplayedProducts([...displayedProducts, ...result]);
+          page.current += 1;
+        } else {
+          page.current = 1;
+          setDisplayedProducts(result);
+        }
+
         setIsLoading(false);
         if (result.length < 12) {
           setHasMoretoLoad(false);
         }
       })
       .catch(setIsLoading(false));
-  }
-
-  //Display products with user input
-  function onSearchTextInput(searchValue) {
-    page.current = 1;
-    if (searchValue.length === 0) {
-      getProducts();
-    } else {
-      searchProducts(page.current, searchValue).then(result => {
-        setDisplayedProducts(
-          findDisplayedProducts(result, selectedFilterOption, searchValue),
-        );
-        if (result.length < 12) {
-          setHasMoretoLoad(false);
-        }
-      });
-    }
-  }
-
-  //Filter products with user brand filter option
-  function filterProducts(keyToFilterBy) {
-    page.current = 1;
-    filterProductList(page.current, keyToFilterBy).then(result => {
-      setDisplayedProducts(
-        findDisplayedProducts(result, keyToFilterBy, searchInput),
-      );
-      if (result.length < 12) {
-        setHasMoretoLoad(false);
-      }
-    });
   }
 
   return (
@@ -89,8 +66,6 @@ const ProductListContainer = () => {
       hasMoretoLoad={hasMoretoLoad}
       setSelectedFilterOption={setSelectedFilterOption}
       selectedFilterOption={selectedFilterOption}
-      onSearchTextInput={searchValue => onSearchTextInput(searchValue)}
-      onFilterSelection={filterKey => filterProducts(filterKey)}
       searchInput={searchInput}
       setSearchInput={setSearchInput}
     />

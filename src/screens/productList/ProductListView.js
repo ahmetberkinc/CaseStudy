@@ -11,12 +11,11 @@ const ProductListView = ({
   onEndReached,
   isLoading,
   hasMoretoLoad,
-  onSearchTextInput,
-  onFilterSelection,
   setSelectedFilterOption,
   selectedFilterOption,
   searchInput,
   setSearchInput,
+  isFavoriteList,
 }) => {
   const insets = useSafeAreaInsets();
 
@@ -43,17 +42,18 @@ const ProductListView = ({
         paddingBottom: insets.bottom,
         marginHorizontal: 16,
       }}>
-      <SearchBar
-        searchInput={searchInput}
-        setSearchInput={setSearchInput}
-        onSearchTextInput={value => onSearchTextInput(value)}
-      />
-      <Filter
-        onFilterSelection={key => onFilterSelection(key)}
-        allProducts={allProducts}
-        setSelectedFilterOption={setSelectedFilterOption}
-        selectedFilterOption={selectedFilterOption}
-      />
+      {!isFavoriteList && (
+        <SearchBar searchInput={searchInput} setSearchInput={setSearchInput} />
+      )}
+
+      {!isFavoriteList && (
+        <Filter
+          allProducts={allProducts}
+          setSelectedFilterOption={setSelectedFilterOption}
+          selectedFilterOption={selectedFilterOption}
+        />
+      )}
+
       <FlatList
         numColumns={2}
         data={displayedProducts}

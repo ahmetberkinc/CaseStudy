@@ -11,7 +11,7 @@ import Constants from '../../../constants';
 
 const CartView = ({cartProducts}) => {
   const renderCartProducts = () => {
-    return cartProducts.map(cartProduct => {
+    return cartProducts?.map(cartProduct => {
       return (
         <View key={cartProduct.id} style={styles.cartContainer}>
           <View style={{flexDirection: 'column', flex: 1}}>
@@ -45,7 +45,7 @@ const CartView = ({cartProducts}) => {
   function calculateTotalPrice() {
     let totalPrice = 0;
 
-    cartProducts.map(
+    cartProducts?.map(
       cartProduct => (totalPrice += cartProduct.count * cartProduct.price),
     );
 

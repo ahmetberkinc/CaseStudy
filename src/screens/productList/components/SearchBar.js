@@ -2,14 +2,13 @@ import {StyleSheet, TextInput} from 'react-native';
 import React, {useState} from 'react';
 import Constants from '../../../../constants';
 
-const SearchBar = ({searchInput, setSearchInput, onSearchTextInput}) => {
+const SearchBar = ({searchInput, setSearchInput}) => {
   return (
     <TextInput
       style={styles.input}
       autoCapitalize={'none'}
       onChangeText={value => {
         setSearchInput(value);
-        onSearchTextInput(value);
       }}
       value={searchInput}
       placeholder="Search"
