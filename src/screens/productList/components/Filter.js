@@ -52,9 +52,9 @@ const Filter = ({
 
   useEffect(() => {
     if (modelInput.length === 0) {
-      setBrandList([...new Set(allProducts?.map(product => product.model))]);
+      setModelList([...new Set(allProducts?.map(product => product.model))]);
     } else {
-      setBrandList([
+      setModelList([
         ...new Set(
           allProducts
             .filter(product => {
