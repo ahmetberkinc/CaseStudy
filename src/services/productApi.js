@@ -8,9 +8,6 @@ export const getProductList = async (
 ) => {
   let url;
 
-  console.log('searchInput', searchInput);
-  console.log('filterOptions', filterOptions);
-
   if (searchInput !== '') {
     url = Constants.BASE_URL + `name=${searchInput}`;
   } else {
@@ -28,8 +25,6 @@ export const getProductList = async (
   if (filterOptions.sort !== 'Default') {
     url += `&sortby=${filterOptions.sort.type}&order=${filterOptions.sort.order}`;
   }
-
-  console.log('url', url);
 
   return new Promise((resolve, reject) => {
     fetch(`${url}&page=${pageNumber}&limit=${12}`, {

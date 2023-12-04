@@ -44,7 +44,7 @@ const App = () => {
                 size={30}
               />
             ),
-            tabBarBadge: cartProductCount,
+            tabBarBadge: cartProductCount !== 0 ? cartProductCount : null,
             headerLeft: () => <HeaderLeftAction />,
           }}
         />

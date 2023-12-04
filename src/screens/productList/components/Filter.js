@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
   selectFilterText: {fontSize: 14, color: Constants.BLACK},
   modalView: {
     backgroundColor: 'white',
-    marginHorizontal: 10,
+    paddingHorizontal: 10,
     flex: 1,
     height: Constants.SCREEN_HEIGHT,
   },

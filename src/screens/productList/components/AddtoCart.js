@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
   },
   containterOption: {
     flexDirection: 'row',
+    height: 36,
   },
   containerCount: {
     height: 30,
